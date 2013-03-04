@@ -24,7 +24,7 @@ div {
 		</div>
 		<div id="div_onlinePerson"
 			style="float: left;height: 500px;width: 150px;">
-			<jsp:include page="../../module/global/onlinePersonList.jsp" flush="true"></jsp:include>
+			<%-- <jsp:include page="../../module/global/onlinePersonList.jsp" flush="true"></jsp:include> --%>
 		</div>
 	</div>
 

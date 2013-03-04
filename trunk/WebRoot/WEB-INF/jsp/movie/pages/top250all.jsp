@@ -11,7 +11,7 @@
 		<link href="${pageContext.request.contextPath}/resources/common/style/bootstrap-responsive.min.css" rel="stylesheet"
 			media="screen">
 		<link href="${pageContext.request.contextPath}/resources/movie/style/top250.css" rel="stylesheet" type="text/css">
-		<script src="${pageContext.request.contextPath}/resources/common/scripts/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/jquery.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/common/scripts/bootstrap.min.js"></script>
 	</head>
 	<body style="margin-top: 40px">

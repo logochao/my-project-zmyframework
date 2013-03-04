@@ -8,7 +8,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/common/scripts/jquery-1.8.3.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/common/scripts/jquery.json-2.2.min.js"></script>
+	src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/common/scripts/ajaxfileupload.js"></script>
 <script type="text/javascript"
