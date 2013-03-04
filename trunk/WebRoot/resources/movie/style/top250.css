@@ -1,0 +1,58 @@
+.rating0-t, .rating05-t, .rating1-t, .rating15-t, .rating2-t, .rating25-t, .rating3-t, .rating35-t, .rating4-t, .rating45-t, .rating5-t, .rating-t {
+display: inline;
+padding-left: 80px;
+font-size: 14px;
+line-height: 1;
+background: url(http://t.douban.com/pics/ui/core.png) no-repeat 0 0;
+zoom: 1;
+}
+
+.rating5-t {
+background-position: -120px -120px;
+}
+
+.rating45-t {
+background-position: -120px -135px;
+}
+
+.rating4-t {
+background-position: -120px -150px;
+}
+
+.rating35-t {
+background-position: -120px -165px;
+}
+
+.rating3-t {
+background-position: -120px -180px;
+}
+
+.rating25-t {
+background-position: -120px -195px;
+}
+
+.rating2-t {
+background-position: -120px -210px;
+}
+
+.rating15-t {
+background-position: -120px -225px;
+}
+
+.rating1-t {
+background-position: -120px -240px;
+}
+
+.rating05-t {
+background-position: -120px -255px;
+}
+
+.rating0-t {
+background-position: -120px -270px;
+}
+
+.rating0-t, .rating05-t ,.rating1-t em, .rating15-t em, .rating2-t em, .rating25-t em, .rating3-t em, .rating35-t em, .rating4-t em, .rating45-t em, .rating5-t em, .rating-t em {
+color: #ff5c38;
+font-family: tahoma;
+font-style: normal;
+}

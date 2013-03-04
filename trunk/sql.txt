@@ -1,0 +1,216 @@
+create database test_yuchao default character set utf8;
+
+######## 聊天记录表 ########
+create table t_message(
+	id int primary key auto_increment,
+	account_id int,
+	message_content text,
+	message_time datetime
+);
+
+insert into t_message (account_id,message_content,message_time) values (1,'how are you?','2012-1-13 09:00:00');
+insert into t_message (account_id,message_content,message_time) values (2,'fine,thank you!and you?','2012-1-13 09:01:01');
+
+insert into t_message (account_id,message_content,message_time) values (2,'hello world',now());
+
+
+######## 账户表 ########
+drop table if exists t_account;
+create table t_account(
+	id int primary key auto_increment,
+	account_name varchar(20),     ##账户名
+	account_password varchar(20), ##密码
+	account_picture varchar(100), ##照片
+	account_create_time datetime  ##注册时间
+);
+alter table t_account modify account_picture varchar(1000);
+
+insert into t_account(account_name, account_password, account_picture, account_create_time)
+ values ("user01","aaa","001","2011-11-11 00:03:00");
+ insert into t_account(account_name, account_password, account_picture, account_create_time)
+ values ("user02","bbb","001","2011-11-11 00:04:00");
+ insert into t_account(account_name, account_password, account_picture, account_create_time)
+ values ("user03","ccc","001","2011-11-11 00:05:00");
+ 
+ 
+ ######## 电影表 ############
+drop table if exists t_movie;
+create table t_movie(
+    id int primary key auto_increment ,   
+    movie_name varchar(50),          ## 电影名
+    movie_pic_url varchar(100),      ## 电影海报路径
+    movie_names varchar(100),        ## 电影所有名字的集合
+    movie_director varchar(100),     ## 导演名
+    movie_screenwriter varchar(100),  ## 编剧
+    movie_starring varchar(100),     ## 主演
+    movie_release_time datetime,     ## 上映日期
+    movie_country varchar(100),      ## 拍摄国家
+    movie_type varchar(100),         ## 类型
+    movie_duration int,              ## 片长(分钟)
+    movie_description varchar(100),  ## 描述
+    movie_score double,              ## 评分
+    movie_score_rate varchar(10),    ## 评分后显示的星星等级
+    movie_250_rate int,               ## 豆瓣250排名
+    movie_resource_url varchar(500)  ## 电影下载地址或下载文件地址 
+);
+ 
+ 
+ insert into t_movie (movie_name, movie_pic_url, movie_names, movie_director, movie_screenwriter, 
+   movie_starring, movie_release_time,movie_country, movie_type, movie_duration, movie_description, movie_score,
+   movie_score_rate, movie_250_rate,movie_resource_url)
+ values('肖申克的救赎','肖申克的救赎.jpg','刺激1995(台) / 月黑高飞(港) / 地狱诺言 / 消香克的救赎','弗兰克·德拉邦特','弗兰克·德拉邦特 / 斯蒂芬·金',
+   ' 蒂姆·罗宾斯 / 摩根·弗里曼 / 鲍勃·冈顿 / 威廉姆·赛德勒 / 克兰西·布朗','1994-09-23','美国','剧情 / 犯罪',142,'希望让你重获自由。',9.5,
+   '5',1,'www.dy2018.com'
+ );
+ 
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('霸王别姬','霸王别姬.jpg',9.4,'5',2);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('这个杀手不太冷','这个杀手不太冷.jpg',9.4,'5',3);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('美丽人生','美丽人生.jpg',9.4,'5',4);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('阿甘正传','阿甘正传.jpg',9.3,'5',5);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('海豚湾','海豚湾.jpg',9.4,'5',6);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('辛德勒的名单','辛德勒的名单.jpg',9.3,'5',7);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('机器人总动员','机器人总动员.jpg',9.3,'5',8);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('盗梦空间','盗梦空间.jpg',9.2,'5',9);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('十二怒汉','十二怒汉.jpg',9.3,'5',10);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('教父','教父.jpg',9.2,'45',11);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('海上钢琴师','海上钢琴师.jpg',9.1,'45',12);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('乱世佳人','乱世佳人.jpg',9.2,'45',13);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('天堂电影院','天堂电影院.jpg',9.1,'45',14);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('三傻大闹宝莱坞','三傻大闹宝莱坞.jpg',9.1,'45',15);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('放牛班的春天','放牛班的春天.jpg',9.1,'45',16);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('龙猫','龙猫.jpg',9.1,'45',17);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('搏击俱乐部','搏击俱乐部.jpg',9.1,'45',18);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('鬼子来了','鬼子来了.jpg',9.1,'45',19);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('两杆大烟枪','两杆大烟枪.jpg',9.1,'45',20);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('少年派的奇幻漂流','少年派的奇幻漂流.jpg',9.0,'45',21);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('千与千寻','千与千寻.jpg',9.0,'45',22);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('忠犬八公的故事','忠犬八公的故事.jpg',9.0,'45',23);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('大闹天宫','大闹天宫.jpg',9.2,'45',24);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('小鞋子','小鞋子.jpg',9.1,'45',25);
+ 
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('窃听风暴','窃听风暴.jpg',9.0,'45',26);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('教父2','教父2.jpg',9.0,'45',27);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('飞越疯人院','飞越疯人院.jpg',9.0,'45',28);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('触不可及','触不可及.jpg',9.0,'45',29);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('美国往事','美国往事.jpg',9.0,'45',30);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('七武士','七武士.jpg',9.1,'45',31);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('指环王3：王者无敌','指环王3：王者无敌.jpg',9.0,'45',32);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('泰坦尼克号','泰坦尼克号.jpg',8.9,'45',33);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('西游记大结局之仙履奇缘','西游记大结局之仙履奇缘.jpg',8.9,'45',34);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('玛丽和马克思','玛丽和马克思.jpg',8.9,'45',35);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('罗马假日','罗马假日.jpg',8.9,'45',36);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('迁徙的鸟','迁徙的鸟.jpg',9.1,'45',37);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('虎口脱险','虎口脱险.jpg',9.0,'45',38);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('天空之城','天空之城.jpg',8.9,'45',39);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('楚门的世界','楚门的世界.jpg',8.9,'45',40);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('被嫌弃的松子的一生','被嫌弃的松子的一生.jpg',8.9,'45',41);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('钢琴家','钢琴家.jpg',8.9,'45',42);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('上帝之城','上帝之城.jpg',8.9,'45',43);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('海洋','海洋.jpg',8.9,'45',44);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('活着','活着.jpg',8.9,'45',45);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('天使爱美丽','天使爱美丽.jpg',8.8,'45',46);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('音乐之声','音乐之声.jpg',8.9,'45',47);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('玩具总动员3','玩具总动员3.jpg',8.9,'45',48);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('飞屋环游记','飞屋环游记.jpg',8.8,'45',49);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('闻香识女人','闻香识女人.jpg',8.8,'45',50);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('指环王2：双塔奇兵','指环王2：双塔奇兵.jpg',8.8,'45',51);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('一一','一一.jpg',8.9,'45',52);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('怦然心动','怦然心动.jpg',8.8,'45',53);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('蝙蝠侠：黑暗骑士','蝙蝠侠：黑暗骑士.jpg',8.8,'45',54);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('雨中曲','雨中曲.jpg',8.9,'45',55);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('西游记第一百零一回之月光宝盒','西游记第一百零一回之月光宝盒.jpg',8.8,'45',56);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('当幸福来敲门','当幸福来敲门.jpg',8.8,'45',57);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('指环王1：魔戒再现','指环王1：魔戒再现.jpg',8.8,'45',58);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('勇士','勇士.jpg',8.9,'45',59);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('美丽心灵','美丽心灵.jpg',8.8,'45',60);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('阳光姐妹淘','阳光姐妹淘.jpg',8.8,'45',61);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('让子弹飞','让子弹飞.jpg',8.8,'45',62);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('死亡诗社','死亡诗社.jpg',8.8,'45',63);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('你看起来好像很好吃','你看起来好像很好吃.jpg',8.8,'45',64);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('低俗小说','低俗小说.jpg',8.8,'45',65);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('无敌破坏王','无敌破坏王.jpg',8.8,'45',66);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('情书','情书.jpg',8.7,'45',67);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('无间道','无间道.jpg',8.8,'45',68);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('七宗罪','七宗罪.jpg',8.7,'45',69);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('饮食男女','饮食男女.jpg',8.8,'45',70);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('萤火虫之墓','萤火虫之墓.jpg',8.7,'45',71);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('大鱼','大鱼.jpg',8.7,'45',72);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('勇敢的心','勇敢的心.jpg',8.7,'45',73);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('菊次郎的夏天','菊次郎的夏天.jpg',8.8,'45',74);
+ insert into t_movie (movie_name, movie_pic_url,movie_score,movie_score_rate, movie_250_rate)
+ values('阿凡达','阿凡达.jpg',8.7,'45',75);
+ 
+ 

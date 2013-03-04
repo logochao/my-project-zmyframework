@@ -1,0 +1,18 @@
+
+2013.2.5
+1.form 标签
+
+
+
+-------------------------------------
+springMVC 实现文件上传
+http://blog.csdn.net/qinpeng100423/article/details/6926549
+文件上传
+http://www.blogjava.net/sxyx2008/archive/2010/11/02/336826.html
+http://ewinlive.iteye.com/blog/846251
+
+spring消息代码的理解
+http://blog.csdn.net/shrekmu/article/details/1617795
+
+hibernate约束与自定义约束
+http://docs.jboss.org/hibernate/validator/4.2/reference/zh-CN/html/validator-customconstraints.html
