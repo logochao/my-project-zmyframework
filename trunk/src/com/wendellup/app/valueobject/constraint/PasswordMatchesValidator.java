@@ -16,7 +16,7 @@ package com.wendellup.app.valueobject.constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.sun.org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtils;
 
 public class PasswordMatchesValidator implements 
 		ConstraintValidator<PasswordMatches, Object> {
