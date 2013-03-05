@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.wendellup.app.valueobject.entity.Movie">
+	<typeAlias alias="Movie"
+		type="com.wendellup.app.valueobject.entity.Movie" />
+
+	<resultMap class="Movie" id="movieResult">
+		<result property="id" column="ID" />
+		<result property="movieName" column="MOVIE_NAME" javaType="String"
+			jdbcType="varchar" />
+		<result property="moviePicUrl" column="MOVIE_PIC_URL" 
+			javaType="String" jdbcType="varchar" />
+		<result property="movieNames" column="MOVIE_NAMES" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieDirector" column="MOVIE_DIRECTOR" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieScreenwriter" column="MOVIE_SCREENWRITER" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieStarring" column="MOVIE_STARRING" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieReleaseTime" column="MOVIE_RELEASE_TIME" javaType="java.util.Date"
+			jdbcType="datetime" />
+		<result property="movieCountry" column="MOVIE_COUNTRY" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieType" column="MOVIE_TYPE" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieDuration" column="MOVIE_DURATION" javaType="Integer"
+			jdbcType="int" />
+		<result property="movieDescription" column="MOVIE_DESCRIPTION" javaType="String"
+			jdbcType="varchar" />
+		<result property="movieScore" column="MOVIE_SCORE" javaType="Double"
+			jdbcType="double" />
+		<result property="movieScoreRate" column="MOVIE_SCORE_RATE" javaType="String"
+			jdbcType="varchar" />
+		<result property="movie250Rate" column="MOVIE_250_RATE" javaType="Integer"
+			jdbcType="int" />
+		<result property="movieResourceUrl" column="MOVIE_RESOURCE_URL" javaType="String"
+			jdbcType="varchar" />
+	</resultMap>
+
+	<select id="queryAll" resultMap="movieResult">
+		select ID, MOVIE_NAME, MOVIE_PIC_URL, MOVIE_NAMES, MOVIE_DIRECTOR, MOVIE_SCREENWRITER,
+		       MOVIE_STARRING, MOVIE_RELEASE_TIME, MOVIE_COUNTRY, MOVIE_TYPE, MOVIE_DURATION,
+		       MOVIE_DESCRIPTION, MOVIE_SCORE, MOVIE_SCORE_RATE, MOVIE_250_RATE, MOVIE_RESOURCE_URL 
+		 from T_MOVIE;
+	</select>
+	
+	<!-- parameterClass="org.wendellup.core.support.QueryParams" -->
+	<select id="queryByPage_count" resultClass="int" parameterClass="org.wendellup.core.support.QueryParams">
+		select count(1) from T_MOVIE
+	</select>
+	
+	<select id="queryByPage" resultMap="movieResult" parameterClass="org.wendellup.core.support.QueryParams">
+		Select * from T_MOVIE t 
+		<![CDATA[
+		        limit  #paging.startRecord#,#paging.pageSize#
+          ]]>
+	</select>
+	
+</sqlMap>
