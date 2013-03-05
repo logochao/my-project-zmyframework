@@ -14,7 +14,6 @@ import com.wendellup.web.base.service.BaseController;
 
 @Controller
 @RequestMapping("/test")
-//@NeedLogin
 public class TestController extends BaseController{
     static{
         try {
