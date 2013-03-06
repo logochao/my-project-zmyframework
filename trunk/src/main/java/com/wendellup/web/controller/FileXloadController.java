@@ -9,18 +9,26 @@
  */
 package com.wendellup.web.controller;
 
-import java.io.IOException;
-import java.util.List;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.wendellup.core.configuration.ConfigurationUtils;
+import org.wendellup.core.util.FastJsonUtils;
 
+import com.wendellup.util.FileUploadUtils;
 import com.wendellup.web.base.annotation.bind.BusinessDesc;
+import com.wendellup.web.base.exceptions.BusinessException;
 import com.wendellup.web.base.service.BaseController;
 
 /**
@@ -46,11 +54,52 @@ public class FileXloadController extends BaseController{
     
     @BusinessDesc(MethodDesc="主页面",ModuleDesc=MODULE_DESC)
     @RequestMapping(value = UPLOAD)
-    public void upload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @ResponseBody
+    public void upload(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        List<MultipartFile> files = multipartRequest.getFiles("myfiles");
-        System.out.println(files);
-        System.out.println("**********************************************");
+        Map<String, Object> result = new HashMap<String, Object>();
+        // 检验附件是否合法
+        ConfigurationUtils.init("filexload.properties");
+        System.out.println(ConfigurationUtils.getString("fileType"));
+        String[] types = ConfigurationUtils.getString("fileType").split(",");
+        Long length = Long.parseLong(ConfigurationUtils.getString("fileLength"));
+        result = FileUploadUtils.validateFile(request, types, length);
+        if (result.get(FileUploadUtils._SUCCESS).equals(new Boolean("false"))) {
+            // 文件验证失败, 返回错误信息
+            response.getWriter().print(FastJsonUtils.Fast_toJSONString(result, true));
+            return;
+        }
+        try {
+            Set<MultipartFile> multipartFiles = FileUploadUtils.getMultipartFileSet((MultipartHttpServletRequest) request);
+            for (MultipartFile multipartFile : multipartFiles) {
+                Long fileSize = (long) multipartFile.getBytes().length;
+
+                // 获得文件所要上传所存放的路径
+                String[] strs = FileUploadUtils.calcPathAndFile(fileSize);
+                String relativeURI = "/"+ strs[0]+ "/"+ strs[1]+ "/"+ multipartFile.getOriginalFilename();
+                String realURI = request.getSession().getServletContext()
+                        .getRealPath(ConfigurationUtils.getString("fileUri"))
+                        + relativeURI;
+
+                File fileto = new File(realURI);
+
+                boolean ok = FileUploadUtils
+                        .copyFile(multipartFile.getBytes(), fileto, true);
+                // 文件上传出错
+                if (!ok) {
+                    result.put(FileUploadUtils._SUCCESS, "false");
+                    result.put(FileUploadUtils._MSG, "文件上传失败");
+                }
+                
+                // 记录到数据库
+                System.out.println("**************数据存储**************");
+                
+                // 返回
+                result.put("filePath", relativeURI);
+                response.getWriter().print(FastJsonUtils.Fast_toJSONString(result, true));
+            }
+        } catch (Exception e) {
+            throw new BusinessException("异常:" + e.getMessage());
+        }
     }
 }

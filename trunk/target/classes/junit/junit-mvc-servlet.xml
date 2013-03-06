@@ -19,7 +19,7 @@
 	<mvc:annotation-driven/>
 	
 	<!-- 默认的controller -->
-	<mvc:view-controller path="/" view-name="index/pages/index" />
+	<mvc:view-controller path="/" view-name="login" />
 
 	<!-- 拦截器 -->
 	<mvc:interceptors>
@@ -60,19 +60,12 @@
 		<property name="paramName" value="lang" />
 	</bean>
 	
-	<!-- 文件上传类的绑定 -->
-	<!-- 
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	 -->
-	<!-- 文件上传配置 -->	
-	<bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- 设置上传文件的最大尺寸为1GB -->
-        <property name="maxUploadSize">
-            <value>1073741824</value>
-        </property>
-    </bean>
-    
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	</bean>
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
@@ -146,4 +139,5 @@
 		<property name="defaultLocale" value="zh_CN" />
 	</bean>
 	
+	 
 </beans>

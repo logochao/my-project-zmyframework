@@ -16,9 +16,12 @@
 		</listener> -->
 	<servlet>
 		<servlet-name>mvc</servlet-name>
-		<!-- -->
+		<!-- 
 		<servlet-class>org.wendellup.core.web.servlet.WendellupDispatcherServlet</servlet-class>
-		<!-- <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+		 -->
+		<!-- 
+		 -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
