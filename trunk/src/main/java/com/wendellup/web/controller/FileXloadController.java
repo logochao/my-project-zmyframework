@@ -10,6 +10,9 @@
 package com.wendellup.web.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +55,7 @@ public class FileXloadController extends BaseController{
     private static final String UPLOAD = "upload";
     private static final String DOWNLOAD = "download";
     
-    @BusinessDesc(MethodDesc="主页面",ModuleDesc=MODULE_DESC)
+    @BusinessDesc(MethodDesc="文件上传",ModuleDesc=MODULE_DESC)
     @RequestMapping(value = UPLOAD)
     @ResponseBody
     public void upload(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -95,11 +98,43 @@ public class FileXloadController extends BaseController{
                 System.out.println("**************数据存储**************");
                 
                 // 返回
-                result.put("filePath", relativeURI);
+                System.out.println(relativeURI.replaceAll("/", "@"));
+                result.put("filePath", relativeURI.replaceAll("/", "@"));
                 response.getWriter().print(FastJsonUtils.Fast_toJSONString(result, true));
             }
         } catch (Exception e) {
             throw new BusinessException("异常:" + e.getMessage());
+        }
+    }
+    
+    @BusinessDesc(MethodDesc="文件下载",ModuleDesc=MODULE_DESC)
+    @RequestMapping(value = DOWNLOAD)
+    public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        String fileName = (String) request.getParameter("myfiles").replace("@", "\\");
+        String fileRealName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+        response.setHeader("Content-Disposition", "attachment;fileName=" + fileRealName);
+        ConfigurationUtils.init("filexload.properties");
+        OutputStream out = null;
+        try {
+            File file = new File(request.getSession().getServletContext()
+                    .getRealPath(ConfigurationUtils.getString("fileUri")) + fileName);
+            InputStream in = new FileInputStream(file);
+            out = response.getOutputStream();
+            byte[] bytes = new byte[2048];
+            int length;
+            while ((length = in.read(bytes)) > 0) {
+                out.write(bytes, 0, length);
+            }
+            in.close();
+        } catch (Exception e) {
+            throw new BusinessException("异常:" + e.getMessage());
+        } finally {
+            if (out != null) {
+                out.close();
+            }
         }
     }
 }

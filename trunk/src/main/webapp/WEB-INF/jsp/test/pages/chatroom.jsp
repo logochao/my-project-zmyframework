@@ -30,6 +30,7 @@ div {
             dataType : 'json',
             success : function(data, status) {
             	alert(data.msg);
+            	$("#filedata").append("<a href='${pageContext.request.contextPath}/filexload/download?myfiles="+data.filePath+"'>下载</a>");
             },
             error : function(data, status, e) {
                 alert('上传错误：' + e);
@@ -65,6 +66,9 @@ div {
 			<input type="button"
                 id="buttonUpload" onclick="ajaxFileUpload();" value="上传"/>
         </form>
+        <div id="filedata">
+        	
+        </div>
     </div>
 </body>
 </html>
