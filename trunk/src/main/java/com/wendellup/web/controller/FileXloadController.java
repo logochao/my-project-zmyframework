@@ -15,12 +15,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.ProgressListener;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,16 +41,9 @@ import org.wendellup.core.util.FastJsonUtils;
 import com.wendellup.util.FileUploadUtils;
 import com.wendellup.web.base.annotation.bind.BusinessDesc;
 import com.wendellup.web.base.exceptions.BusinessException;
+import com.wendellup.web.base.listener.FileUpLoadProgressListener;
 import com.wendellup.web.base.service.BaseController;
 
-/**
- * 〈一句话功能简述〉<br> 
- * 〈功能详细描述〉
- *
- * @author lukejia
- * @see [相关类/方法]（可选）
- * @since [产品/模块版本] （可选）
- */
 @Controller
 @RequestMapping("/filexload")
 public class FileXloadController extends BaseController{
@@ -54,6 +56,7 @@ public class FileXloadController extends BaseController{
      */
     private static final String UPLOAD = "upload";
     private static final String DOWNLOAD = "download";
+    private static final String UPLOADSTAUTS = "upload_stauts";
     
     @BusinessDesc(MethodDesc="文件上传",ModuleDesc=MODULE_DESC)
     @RequestMapping(value = UPLOAD)
@@ -134,6 +137,83 @@ public class FileXloadController extends BaseController{
         } finally {
             if (out != null) {
                 out.close();
+            }
+        }
+    }
+    
+    @BusinessDesc(MethodDesc="文件上传状态",ModuleDesc=MODULE_DESC)
+    @RequestMapping(value = UPLOADSTAUTS)
+    public void uploadStauts(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setContentType("text/html;charset=utf-8");
+        //PrintWriter out = response.getWriter();
+        HttpSession session=request.getSession();
+        System.out.println((String) session.getAttribute("read"));
+        //out.write((String) session.getAttribute("read"));
+        
+        
+        String saveDirectory = request.getSession().getServletContext().getRealPath("/upload");
+        
+        // Check that we have a file upload request
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        System.out.println("isMultipart="+isMultipart+"<br>");
+        // Create a factory for disk-based file items
+        FileItemFactory factory = new DiskFileItemFactory();
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        //Create a progress listener
+        ProgressListener progressListener = new ProgressListener(){
+           private long megaBytes = -1;
+           public void update(long pBytesRead, long pContentLength, int pItems) {
+               long mBytes = pBytesRead / 1000000;
+               if (megaBytes == mBytes) {
+                   return;
+               }
+               megaBytes = mBytes;
+               System.out.println("We are currently reading item " + pItems);
+               if (pContentLength == -1) {
+                   System.out.println("So far, " + pBytesRead + " bytes have been read.");
+               } else {
+                   System.out.println("So far, " + pBytesRead + " of " + pContentLength
+                                      + " bytes have been read.");
+               }
+           }
+        };
+        upload.setProgressListener(progressListener);
+        
+        // Parse the request
+        List /* FileItem */ items = upload.parseRequest(request);
+        
+        // Process the uploaded items
+        Iterator iter = items.iterator(); 
+        while (iter.hasNext()) {
+            FileItem item = (FileItem) iter.next();
+
+            if (item.isFormField()) {
+                // Process a regular form field
+                //processFormField(item);
+                String name = item.getFieldName();
+                String value = item.getString();
+                value = new String(value.getBytes("UTF-8"), "ISO-8859-1");
+                System.out.println(name + "=" + value+"<br>");
+            } else {
+                // Process a file upload
+                //processUploadedFile(item);
+                String fieldName = item.getFieldName();
+                String fileName = item.getName();
+                String contentType = item.getContentType();
+                boolean isInMemory = item.isInMemory();
+                long sizeInBytes = item.getSize();
+                System.out.println("fieldName="+fieldName+"<br>");
+                System.out.println("fileName="+fileName+"<br>");
+                System.out.println("contentType="+contentType+"<br>");
+                System.out.println("isInMemory="+isInMemory+"<br>");
+                System.out.println("sizeInBytes="+sizeInBytes+"<br>");
+                if (fileName != null && !"".equals(fileName)) {
+                    fileName= FilenameUtils.getName(fileName);
+                    System.out.println("fileName saved="+fileName+"<br>");
+                    File uploadedFile = new File(saveDirectory, fileName);
+                    item.write(uploadedFile);
+                }            
             }
         }
     }

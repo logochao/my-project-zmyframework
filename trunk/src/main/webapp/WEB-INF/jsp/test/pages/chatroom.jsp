@@ -70,5 +70,14 @@ div {
         	
         </div>
     </div>
+    <div>
+<p><font size="5"color="#FF0000"><b>檔案上傳</b></font></p>
+
+<form name="upload" enctype="multipart/form-data" method="post" action="${pageContext.request.contextPath}/filexload/upload_stauts"> 
+<p>上傳檔案： <input type="file" name="file" size="20" maxlength="20" /> </p>
+<p>檔案說明： <input type="text" name="filedesc" size="30" maxlength="50" /> </p>
+<p> <input type="submit"value="上傳" /> <input type="reset" value="清除" /> </p>
+</form>
+    </div>
 </body>
 </html>
