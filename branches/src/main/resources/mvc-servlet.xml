@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop 
+ 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	
+	<context:component-scan base-package="com.wendellup" />
+	<!-- 启动mvc注解功能 -->
+	<mvc:annotation-driven/>
+	
+	<!-- 默认的controller -->
+	<mvc:view-controller path="/" view-name="index/pages/index" />
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.wendellup.web.base.annotation.method.security.SystemCommonInterceptor">
+				<property name="moreThanTime">
+					<value>500</value>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="com.wendellup.web.base.annotation.method.security.AnnotationNeedLoginInterceptor">
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="com.wendellup.web.base.annotation.method.business.AnnotationBusinessDescInterceptor">
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean
+				class="com.wendellup.web.base.annotation.method.business.AnnotationBusinessNeededInterceptor">
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<ref bean="localeChangeInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<!-- 配置国际化拦截器 -->	<!-- 拦截参数 -->
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="lang" />
+	</bean>
+	
+	<!-- 文件上传类的绑定 -->
+	<!-- 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	 -->
+	<!-- 文件上传配置 -->	
+	<bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置上传文件的最大尺寸为1GB -->
+        <property name="maxUploadSize">
+            <value>1073741824</value>
+        </property>
+    </bean>
+    
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 总错误处理 
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView">
+			<value>/error/error</value>
+		</property>
+		<property name="warnLogCategory">
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver</value>
+		</property>
+	</bean>-->
+	
+	<!-- 全局异常配置 start -->
+	<bean id="exceptionResolver"
+		class="com.wendellup.web.base.exceptions.AbstractHandlerExceptionResolverExt">
+		<property name="defaultErrorView">
+			<value>redirect:/error/error</value>
+		</property>
+		<property name="exceptionMappings">
+			<props>
+				<prop key="BusinessException">error/be</prop>
+				<prop key="DaoException">error/be</prop>
+				<prop key="PageNotFoundException">error/pagenotfound</prop>
+				<prop key="ServiceException">error/be</prop>
+				<prop key="java.lang.Exception">error/error</prop>
+			</props>
+		</property>
+		<property name="statusCodes">
+			<props>
+				<prop key="error/500">500</prop>
+				<prop key="error/404">404</prop>
+			</props>
+		</property>
+		<!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
+		<property name="warnLogCategory" value="WARN"></property>
+		<!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 <property name="defaultErrorView" 
+			value="errors/error"></property> 默认HTTP状态码 <property name="defaultStatusCode" 
+			value="500"></property> -->
+	</bean>
+	
+	<!-- 验证框架开始配置 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/classes/messages</value>
+				<!-- <value>ValidationMessages</value> -->
+			</list>
+		</property>
+		<property name="cacheSeconds" value="-1" />
+	</bean>
+	
+	<!-- 
+		Register the messages.properties
+		ReloadableResourceBundleMessageSource 和 ResourceBundleMessageSource只需要配置一个即可
+	 -->
+	<!-- 
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+	 -->
+	<!-- 国际化配置 -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="zh_CN" />
+	</bean>
+	
+</beans>
