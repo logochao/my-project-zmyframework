@@ -1,4 +1,4 @@
-
+﻿
 2013.2.5
 1.form 标签
 
@@ -16,3 +16,8 @@ http://blog.csdn.net/shrekmu/article/details/1617795
 
 hibernate约束与自定义约束
 http://docs.jboss.org/hibernate/validator/4.2/reference/zh-CN/html/validator-customconstraints.html
+
+
+-----------------------
+2013.3.26
+svn创建分支,后面打tags...
